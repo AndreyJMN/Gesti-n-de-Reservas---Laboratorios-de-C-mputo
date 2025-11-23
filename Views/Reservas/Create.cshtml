@@ -1,0 +1,119 @@
+﻿@model Gestión_de_Reservas___Laboratorios_de_Cómputo.Models.Reserva
+
+@{
+    ViewData["Title"] = "Reservas de Laboratorio";
+}
+
+<div class="bg-light border-bottom mb-4">
+    <nav class="navbar navbar-expand-lg navbar-light container">
+        <span class="navbar-brand fw-bold">
+            <i class="bi bi-building"></i> CAMPUS TECH
+        </span>
+        <span class="ms-auto text-muted">Sistema de reservas de laboratorios</span>
+    </nav>
+</div>
+
+<div class="container mb-5">
+    <h1 class="mb-4">Reservas Registradas</h1>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Nueva reserva</h4>
+
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        @* NombreProfesor *@
+                        <div class="mb-3">
+                            <label asp-for="NombreProfesor" class="form-label"></label>
+                            <input asp-for="NombreProfesor" class="form-control" />
+                            <span class="text-danger" asp-validation-for="NombreProfesor"></span>
+                        </div>
+
+                        @* Email *@
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span class="text-danger" asp-validation-for="Email"></span>
+                        </div>
+
+                        @* Laboratorio (select) *@
+                        <div class="mb-3">
+                            <label asp-for="Laboratorio" class="form-label"></label>
+                            <select asp-for="Laboratorio" class="form-select">
+                                @foreach (var lab in (List<string>)ViewBag.Laboratorios)
+                                {
+                                    <option value="@(lab == "Seleccione..." ? "" : lab)">
+                                        @lab
+                                    </option>
+                                }
+                            </select>
+                            <span class="text-danger" asp-validation-for="Laboratorio"></span>
+                        </div>
+
+                        @* Fecha *@
+                        <div class="mb-3">
+                            <label asp-for="Fecha" class="form-label"></label>
+                            <input asp-for="Fecha" class="form-control" type="date" />
+                            <span class="text-danger" asp-validation-for="Fecha"></span>
+                        </div>
+
+                        @* Horas *@
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label asp-for="HoraInicio" class="form-label"></label>
+                                <input asp-for="HoraInicio" class="form-control" type="time" />
+                                <span class="text-danger" asp-validation-for="HoraInicio"></span>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label asp-for="HoraFin" class="form-label"></label>
+                                <input asp-for="HoraFin" class="form-control" type="time" />
+                                <span class="text-danger" asp-validation-for="HoraFin"></span>
+                            </div>
+                        </div>
+
+                        @* Motivo *@
+                        <div class="mb-3">
+                            <label asp-for="Motivo" class="form-label"></label>
+                            <textarea asp-for="Motivo" class="form-control" rows="3"></textarea>
+                            <span class="text-danger" asp-validation-for="Motivo"></span>
+                        </div>
+
+                        @* CodReserva *@
+                        <div class="mb-3">
+                            <label asp-for="CodReserva" class="form-label"></label>
+                            <input asp-for="CodReserva" class="form-control" />
+                            <span class="text-danger" asp-validation-for="CodReserva"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-success me-2">Reservar</button>
+                        <a class="btn btn-outline-secondary" asp-action="Index">Ver listado</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Información</h4>
+                    <p class="text-muted">
+                        Use este formulario para registrar las reservas de los laboratorios. Todos los campos son obligatorios.
+                    </p>
+                    <p class="text-muted">
+                        Puede ver las reservas en <strong>Ver listado</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
